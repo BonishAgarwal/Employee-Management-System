@@ -1,15 +1,21 @@
 from fastapi import Depends, APIRouter
+from fastapi.security import OAuth2PasswordBearer
 from app.schemas.models import EmployeeCreate #contains pydantic models
 
 from sqlalchemy.orm import Session
 from app.db import get_db
 
 from app.controllers.employee import Employees
+from app.auth.decode_token import authenticate
 
 router = APIRouter()
 
+# OAuth2 scheme
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
+
 @router.get("/")
-def home():
+@authenticate
+def home(token: str = Depends(oauth2_scheme), user: dict = None):
     return "Hello World!!"
 
 @router.post("/employee")

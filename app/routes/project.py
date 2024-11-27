@@ -40,3 +40,9 @@ def project(project_id, project: ProjectCreate, db: Session = Depends(get_db)):
     project = p.update_project(project_id, project)
     
     return project
+
+@router.get("/project/{project_id}/employees")
+def get_employees_for_project_id(project_id, db: Session = Depends(get_db)):
+    p = Projects(db)
+    
+    employees = p.get_employees_by_project_id(project_id)

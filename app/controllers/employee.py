@@ -45,8 +45,13 @@ class Employees:
         return employee
 
     def get_all_project_for_employee(self, emp_id):
-        projects = self.db.query(Project).join(EmployeeProjectMapping, EmployeeProjectMapping.project_id == Project.id).filter(EmployeeProjectMapping.employee_id == emp_id).all()
+        # projects = self.db.query(Project).join(EmployeeProjectMapping, EmployeeProjectMapping.project_id == Project.id).filter(EmployeeProjectMapping.employee_id == emp_id).all()
         
-        all_projects = [project.name for project in projects]
+        # all_projects = [project.name for project in projects]
         
-        return all_projects
+        employee = self.db.query(Employee).filter(Employee.id == emp_id).first()
+        
+        if employee:
+            projects = [mapping.project for mapping in employee.projects]
+        
+        return projects
