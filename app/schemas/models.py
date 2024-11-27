@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from enum import Enum
 
 class EmployeeCreate(BaseModel):
     name: str
@@ -15,8 +16,16 @@ class TaskCreate(BaseModel):
     status: str
     project_id: int
     employee_id: int
+
+class TaskStatusUpdate(BaseModel):
+    status: str
     
 
-class User(BaseModel):
-    username: str
+class RoleEnum(str, Enum):
+    admin = "Admin"
+    manager = "Manager"
+    employee = "Employee"
+
+class UserLogin(BaseModel):
     password: str
+    email: str

@@ -1,6 +1,12 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, Enum, URL
 from sqlalchemy.orm import relationship
 from app.db import Base
+import enum
+
+# class MyEnum(enum.Enum):
+#     admin = "Admin"
+#     manager = "Manager"
+#     employee = "employee"
 
 class Employee(Base):
     __tablename__ = 'employees'
@@ -19,6 +25,7 @@ class Project(Base):
     
     id = Column(Integer, primary_key=True)
     name = Column(String)
+    url = Column(URL)
     
     employees = relationship('EmployeeProjectMapping', back_populates='project')
     tasks = relationship('Task', back_populates='project')
@@ -53,5 +60,7 @@ class User(Base):
     
     id = Column(Integer, primary_key=True, autoincrement=True)
     username = Column(String)
+    email = Column(String)
     password = Column(String)
+    role = Column(String)
 

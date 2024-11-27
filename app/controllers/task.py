@@ -47,3 +47,16 @@ class Tasks(Subject):
             self.db.refresh(exis_task)
             
         return exis_task
+
+    def change_status(self, task_id, status):
+        task = self.db.query(Task).filter(Task.id==task_id).first()
+        
+        if task:
+            task.status = status
+        
+            self.db.commit()
+            self.db.refresh(task)
+            
+            self.notify_observers({"email": "bonishgarg@gmail.com"})
+
+        return task
